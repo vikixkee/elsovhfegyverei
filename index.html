@@ -132,51 +132,90 @@
   <p>Készítette: Saját projekt | Feltölthető GitHubra 🚀</p>
 </footer>
 
-<section class="quiz">
+<section>
   <h2>Kvíz</h2>
   <div id="quiz"></div>
 </section>
 
+<style>
+button {
+  padding: 10px;
+  margin: 5px 0;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.correct {
+  background-color: green !important;
+  color: white;
+}
+
+.wrong {
+  background-color: red !important;
+  color: white;
+}
+</style>
+
 <script>
+window.onload = function() {
+
 const questions = [
-  {q:"Melyik fegyver volt alap kézifegyver?", a:["Tank","Puska","Repülő"], c:1},
-  {q:"Mi volt a géppuska előnye?", a:["Gyors tüzelés","Csendes","Kicsi"], c:0},
-  {q:"Mi okozta a legtöbb halált?", a:["Pisztoly","Tüzérség","Kés"], c:1},
-  {q:"Melyik volt vegyi fegyver?", a:["Mustárgáz","Bomba","Tank"], c:0},
-  {q:"Mire használták a tankokat?", a:["Repülés","Áttörés","Úszás"], c:1},
-  {q:"Mire használták a repülőket?", a:["Felderítés","Főzés","Építés"], c:0},
-  {q:"Hol harcoltak magyarok?", a:["Orosz front","Afrika","USA"], c:0},
-  {q:"Mi volt a bajonett?", a:["Kés","Sisak","Cipő"], c:0},
-  {q:"Mi a tank?", a:["Hajó","Harckocsi","Repülő"], c:1},
-  {q:"Mi a torpedó?", a:["Víz alatti fegyver","Kés","Puska"], c:0},
-  {q:"Melyik volt modern fegyver?", a:["Géppuska","Kard","Íj"], c:0},
-  {q:"Mi kellett a gáz ellen?", a:["Sisak","Gázmaszk","Kesztyű"], c:1},
-  {q:"Melyik volt repülő?", a:["Tank","Biplán","Ágyú"], c:1},
-  {q:"Mi az ágyú?", a:["Tüzérség","Pisztoly","Kés"], c:0},
-  {q:"Magyarország melyik része volt?", a:["Monarchia","USA","Francia"], c:0}
+  {
+    q: "Melyik alap fegyver?",
+    answers: ["Tank", "Puska", "Repülő"],
+    correct: 1
+  },
+  {
+    q: "Mi lő gyorsan?",
+    answers: ["Géppuska", "Kés", "Sisak"],
+    correct: 0
+  },
+  {
+    q: "Mi robban messziről?",
+    answers: ["Ágyú", "Pisztoly", "Cipő"],
+    correct: 0
+  }
 ];
 
-const quizDiv = document.getElementById("quiz");
+const quiz = document.getElementById("quiz");
 
-questions.forEach((item, index) => {
-  const qDiv = document.createElement("div");
-  qDiv.innerHTML = `<p>${index+1}. ${item.q}</p>`;
+questions.forEach((q, index) => {
 
-  item.a.forEach((ans, i) => {
+  const div = document.createElement("div");
+  div.innerHTML = "<p>" + (index+1) + ". " + q.q + "</p>";
+
+  q.answers.forEach((answer, i) => {
+
     const btn = document.createElement("button");
-    btn.textContent = ans;
-    btn.onclick = () => {
-      if(i === item.c) {
-        btn.classList.add("correct");
-      } else {
-        btn.classList.add("wrong");
+    btn.innerText = answer;
+
+    btn.onclick = function() {
+
+      const allButtons = div.querySelectorAll("button");
+
+      allButtons.forEach((b, idx) => {
+        b.disabled = true;
+
+        if (idx === q.correct) {
+          b.classList.add("correct"); // jó = zöld
+        }
+      });
+
+      if (i !== q.correct) {
+        btn.classList.add("wrong"); // rossz = piros
       }
+
     };
-    qDiv.appendChild(btn);
+
+    div.appendChild(btn);
   });
 
-  quizDiv.appendChild(qDiv);
+  quiz.appendChild(div);
 });
+
+};
 </script>
 
 </body>
